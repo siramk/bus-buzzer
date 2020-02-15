@@ -10,7 +10,7 @@ const byte adress2[6]="11110";
 int defstate=0;
 int state;
 int val;
-int inputpin=1;
+uint8_t inputpin=D4;
 void setup() {
   Serial.begin(9600);
   radio.begin();
