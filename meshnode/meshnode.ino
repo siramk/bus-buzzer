@@ -10,7 +10,7 @@ const byte adress2[6]="11110";
 int defstate=0;
 int state;
 int val;
-uint8_t inputpin=D4;
+uint8_t inputpin=2;
 void setup() {
   Serial.begin(9600);
   radio.begin();
@@ -27,8 +27,8 @@ void listenn()
   radio.startListening();
   if(radio.available())                     //if the bus is nearby
   {
-      byte msg[4]="0000";
-      radio.read(&msg,sizeof(msg);
+      char msg[5]="0000";
+      radio.read(&msg,sizeof(msg));
       if(state==1 && msg=="0001")state=2;
       if(state==2 && msg=="0010")state=3;
      
@@ -44,7 +44,7 @@ boolean isbuttonpressed()
 {
   val = digitalRead(inputpin);  // read input value
   if (val == HIGH) {         // check if the input is HIGH (button released)
-    return 0 // turn LED OFF
+    return 0; // turn LED OFF
   } else {
   
     Serial.println("button pressed");
@@ -59,22 +59,17 @@ void loop() {
     }
     if(state==1)
     {
-      byte msg[4]="0001";
-      radio.write(&msg.sizeof(msg));
+      char msg[5]="0001";
+      radio.write(&msg,sizeof(msg));
     }
     if(state==3)
     {
-      byte msg[4]="0010";
-      radio.write(&msg.sizeof(msg));
+      char msg[5]="0010";
+      radio.write(&msg,sizeof(msg));
     }
    
 
 }
    
    
-   
-   
-   
-   
-
-}
+  
