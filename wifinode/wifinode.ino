@@ -33,7 +33,7 @@ int state=0;
 const String dest="ena";
 const String url2="http://desolate-beach-70001.herokuapp.com/bus.php?requesttype=1&destination=ena";
 const String url1="http://desolate-beach-70001.herokuapp.com/guard.php?destination=ena";
-const int defstate=1;
+const int defstate=0;
 void setup() {
   Serial.begin(9600);
   //radio.begin();
