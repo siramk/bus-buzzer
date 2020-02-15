@@ -9,6 +9,8 @@ const byte adress1[6] = "00001";
 const byte adress2[6]="11110";
 int defstate=0;
 int state;
+int val;
+int inputpin=1;
 void setup() {
   Serial.begin(9600);
   radio.begin();
@@ -17,6 +19,8 @@ void setup() {
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
   state=defstate;
+  val=0;
+  pinMode(inputpin,INPUT);
 }
 void listenn()
 {
@@ -36,8 +40,21 @@ void listenn()
    radio.stopListening();
   
 }
+boolean isbuttonpressed()
+{
+  val = digitalRead(inputpin);  // read input value
+  if (val == HIGH) {         // check if the input is HIGH (button released)
+    digitalWrite(ledPin, LOW);  // turn LED OFF
+  } else {
+    digitalWrite(ledPin, HIGH);  // turn LED ON
+  }
+}
 void loop() {
     listenn();
+    if((state==0))
+    {
+      if(isbuttonpressed())state=1;
+    }
     if(state==1)
     {
       byte msg[4]="0001";
