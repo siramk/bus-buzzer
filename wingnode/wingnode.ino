@@ -13,7 +13,7 @@
 #define   MESH_SSID       "whateverYouLike"
 #define   MESH_PASSWORD   "somethingSneaky"
 #define   MESH_PORT       5555
-#define   GUARD_NODE      12121212121
+#define   GUARD_NODE      2490350279
 bool isBusThere=false;
 String busThereCheck="Bus is there";
 String busNotThereCheck="Bus is not there";
@@ -39,7 +39,7 @@ painlessMesh  mesh;
 bool calc_delay = false;
 SimpleList<uint32_t> nodes;
 
-Task taskBuzz(BUZZ_PERIOD, TASK_FOREVER, &buzz);
+//Task taskBuzz(BUZZ_PERIOD, TASK_FOREVER, &buzz);
 
 void setup() {
   Serial.begin(115200);
@@ -55,7 +55,7 @@ void setup() {
   mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
   mesh.onNodeDelayReceived(&delayReceivedCallback);
   
-  userScheduler.addTask( taskBuzz );
+//  userScheduler.addTask( taskBuzz );
 
 //  randomSeed(analogRead(A0));
 
@@ -63,22 +63,22 @@ void setup() {
 
 void loop() {
   mesh.update();
-  if(isBusThere && !isTaskBuzzEnable)
-  {
-    taskBuzz.enable();
-    isTaskBuzzEnable=true;
-  }
-  else if(!isBusThere && isTaskBuzzEnable)
-  {
-    taskBuzz.disable();
-    isTaskBuzzEnable=false;
-  }
+//  if(isBusThere && !isTaskBuzzEnable)
+//  {
+//    taskBuzz.enable();
+//    isTaskBuzzEnable=true;
+//  }
+//  else if(!isBusThere && isTaskBuzzEnable)
+//  {
+//    taskBuzz.disable();
+//    isTaskBuzzEnable=false;
+//  }
   digitalWrite(BUZZER,onFlag);
-  isCall=digitalRead(WAIT_BUTTON);
+  isCall=digitalRead(CALL_BUTTON);
   if(isCall && !isBusThere)
       if(!callBus())
           Serial.println("ERROR: callBus Failed to send message!!");
-  isWait=digitalRead(CALL_BUTTON);
+  isWait=digitalRead(WAIT_BUTTON);
   if(isWait && isBusThere)  
       if(!waitBus())
           Serial.println("ERROR:waitBus Failed to send message!!");
@@ -86,23 +86,23 @@ void loop() {
 
 
 
-void buzz(){
-  if(iteration_count==2*BUZZ_ITERATIONS)
-  {
-    taskBuzz.setInterval(BUZZ_GAP);
-    iteration_count=0;
-  }
-  else if(iteration_count==1)
-  {
-    taskBuzz.setInterval(BUZZ_PERIOD);
-  }
-  iteration_count+=1;
-  if(onFlag)
-    onFlag=false;
-  else
-    onFlag=true;
-  
-}
+//void buzz(){
+//  if(iteration_count==2*BUZZ_ITERATIONS)
+//  {
+//    taskBuzz.setInterval(BUZZ_GAP);
+//    iteration_count=0;
+//  }
+//  else if(iteration_count==1)
+//  {
+//    taskBuzz.setInterval(BUZZ_PERIOD);
+//  }
+//  iteration_count+=1;
+//  if(onFlag)
+//    onFlag=false;
+//  else
+//    onFlag=true;
+//  
+//}
 
 bool callBus()
 {
