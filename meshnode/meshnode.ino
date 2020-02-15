@@ -44,9 +44,11 @@ boolean isbuttonpressed()
 {
   val = digitalRead(inputpin);  // read input value
   if (val == HIGH) {         // check if the input is HIGH (button released)
-    digitalWrite(ledPin, LOW);  // turn LED OFF
+    return 0 // turn LED OFF
   } else {
-    digitalWrite(ledPin, HIGH);  // turn LED ON
+  
+    Serial.println("button pressed");
+    return 1;
   }
 }
 void loop() {
