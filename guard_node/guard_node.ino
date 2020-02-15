@@ -5,16 +5,17 @@
 #define MESH_PASSWORD "somethingSneaky"
 #define MESH_PORT     5555
 
-#define   STATION_SSID     "IITBhilai"
-#define   STATION_PASSWORD ""
-#define   STATION_PORT     80
-uint8_t   station_ip[4] =  {10,3,62,70}; // IP of the server
+// #define   STATION_SSID     "IITBhilai"
+// #define   STATION_PASSWORD ""
+// #define   STATION_PORT     80
+// uint8_t   station_ip[4] =  {10,3,62,70}; // IP of the server
 
 #define BUS_NODE   10000
+#define TEST_BUTTON 14
 uint32_t bus_node=BUS_NODE;
 
-const char* ssid = "YOUR WIFI NETWORK NAME";
-const char* password = "YOUR WIFI PASSWARD";
+// const char* ssid = "YOUR WIFI NETWORK NAME";
+// const char* password = "YOUR WIFI PASSWARD";
 
 // Prototypes
 bool informBusIsThere();
@@ -41,18 +42,18 @@ SimpleList<uint32_t> nodes;
 
 void setup() {
     Serial.begin(115200);
-
+    pinMode(TEST_BUTTON,INPUT);
     mesh.setDebugMsgTypes(ERROR | DEBUG);
 
     // Channel set to 6. Make sure to use the same channel for your mesh and for you other
   // network (STATION_SSID)
-    mesh.init(MESH_SSID, MESH_PASSWORD, &userScheduler, MESH_PORT,WIFI_AP_STA, 6);
-    mesh.initOTA("bridge");
-    mesh.stationManual(STATION_SSID, STATION_PASSWORD, STATION_PORT, station_ip);
+   mesh.init(MESH_SSID, MESH_PASSWORD, &userScheduler, MESH_PORT);
+    // mesh.initOTA("bridge");
+    // mesh.stationManual(STATION_SSID, STATION_PASSWORD, STATION_PORT, station_ip);
 
-    mesh.setRoot(true);
+    // mesh.setRoot(true);
     // This node and all other nodes should ideally know the mesh contains a root, so call this on all nodes
-    mesh.setContainsRoot(true);
+    // mesh.setContainsRoot(true);
     
     mesh.onReceive(&receivedCallback);
     mesh.onNewConnection(&newConnectionCallback);
@@ -64,6 +65,7 @@ void setup() {
 
 void loop() {
   mesh.update();
+  isBusThere=digitalRead(TEST_BUTTON);
   if(isBusThere)
   {
     if(!alreadyInformedBusIsThere)
